@@ -14,12 +14,12 @@ def classification_data() -> Tuple[np.ndarray, np.ndarray]:
     N_class2 = N // 2
 
     x1_mean = np.array([5.0, 0.0])
-    x1_cov = np.array([3.0, 0.0], [0.0, 1.0])
+    x1_cov = np.array([[3.0, 0.0], [0.0, 1.0]])
     x1 = np.random.multivariate_normal(mean = x1_mean, cov = x1_cov, size = N_class1) # Mehrdimensionale Normalverteilung
     y1 = np.array([0 for _ in range(N_class1)])
 
     x2_mean = np.array([0.0, 0.0])
-    x2_cov = np.array([1.0, 0.0], [0.0, 3.0])
+    x2_cov = np.array([[1.0, 0.0], [0.0, 3.0]])
     x2 = np.random.multivariate_normal(mean = x2_mean, cov = x2_cov, size = N_class2) # Mehrdimensionale Normalverteilung
     y2 = np.array([1 for _ in range(N_class2)])
 
