@@ -1,14 +1,13 @@
 import numpy as np
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.datasets import mnist
+from tensorflow.keras.datasets import cifar10
 from typing import Tuple
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 
-# %%
 class MNIST:
     def __init__(self, with_normalization: bool = True):
-        (x_train, y_train), (x_test, y_test) = mnist.load_data()
+        (x_train, y_train), (x_test, y_test) = cifar10.load_data()
         self.x_train_: np.ndarray = None
         self.y_train_: np.ndarray = None
         self.x_vali_: np.ndarray = None
@@ -17,9 +16,7 @@ class MNIST:
         self.train_splitted_size = 0
         # Preprocess x
         self.x_train = x_train.astype(np.float32)
-        self.x_train = np.expand_dims(x_train, axis=-1)
         self.x_test  = x_test.astype(np.float32)
-        self.x_test = np.expand_dims(x_test, axis=-1)
         if with_normalization:
             self.x_train = self.x_train / 255.0
             self.x_test = self.x_test / 255.0

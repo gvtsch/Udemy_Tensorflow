@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.datasets import mnist 
+from tensorflow.keras.datasets import cifar10 
 from tensorflow.keras.layers.experimental.preprocessing import RandomRotation # Rotieren eines Bildes (Data Augmentation)
 from tensorflow.keras.layers.experimental.preprocessing import RandomTranslation # Verschieben eines Bildes (Data Augmentation)
 from tensorflow.keras.layers.experimental.preprocessing import RandomZoom # Zoom Bild (Data Augmentation)
@@ -16,7 +16,7 @@ class MNIST:
         self.num_classes = 10
         self.batch_size = 128
         # Load dataset
-        (self.x_train, self.y_train), (self.x_test, self.y_test) = mnist.load_data()
+        (self.x_train, self.y_train), (self.x_test, self.y_test) = cifar10.load_data()
         # Split dataset
         self.x_train, self.x_val, self.y_train, self.y_val = train_test_split(
             self.x_train,
@@ -24,9 +24,9 @@ class MNIST:
             test_size=validation_size
         )
         # Preprocess x
-        self.x_train = np.expand_dims(self.x_train, axis=-1).astype(np.float32)
-        self.x_test = np.expand_dims(self.x_test, axis=-1).astype(np.float32)
-        self.x_val = np.expand_dims(self.x_val, axis=-1).astype(np.float32)
+        self.x_train = self.x_train.astype(np.float32)
+        self.x_test = self.x_test.astype(np.float32)
+        self.x_val = self.x_val.astype(np.float32)
         # Preprocess y
         self.y_train = to_categorical(self.y_train, num_classes=self.num_classes)
         self.y_test  = to_categorical(self.y_test, num_classes=self.num_classes)
