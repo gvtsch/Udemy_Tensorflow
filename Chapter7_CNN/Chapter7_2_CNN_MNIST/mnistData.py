@@ -5,17 +5,33 @@
 # - MinMaxScaling kann aber auch auf das Intervall [-1, 1] gemappt werden: ([0, 255] / 127.5)  - 1 --> [-1, 1]
 # - Es wird immer noch abhängig vom Feature-Wert das Gewicht angepasst, aber mit sehr viel weniger Einfluss
 
+# %% [markdown]
+# ## Data augmentation
+# - Hier werden die vorhandenen Bilder leicht
+
+# %% [markdown]
+# ## Validation und Trainingsdata bzw. Testdata
+# - Die Testdaten werden als allerletztes aufgerufen! Die dienen wirklich nur zum Test. Nicht etwa zum Vergleich von Modellen oder ähnlichem.
+# - Zum Vergleich nutzt man das Validation Dataset
+
 # %%
 import numpy as np
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.datasets import mnist
 from typing import Tuple
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from sklearn.model_selection import train_test_split
 
 # %%
 class MNIST:
     def __init__(self, with_normalization: bool = True):
         (x_train, y_train), (x_test, y_test) = mnist.load_data()
+        self.x_train_: np.ndarray = None
+        self.y_train_: np.ndarray = None
+        self.x_vali_: np.ndarray = None
+        self.y_vali_: np.ndarray = None
+        self.val_size = 0
+        self.train_splitted_size = 0
         # Preprocess x
         self.x_train = x_train.astype(np.float32)
         self.x_train = np.expand_dims(x_train, axis=-1)
@@ -42,6 +58,16 @@ class MNIST:
     def get_test_set(self) -> Tuple[np.ndarray, np.ndarray]:
         return self.x_test, self.y_test
 
+    def get_splitted_train_validation_set(self, validation_size: float = 0.33) -> Tuple:
+        self.x_train_, self.x_val_, self.y_train_, self.y_val_ = train_test_split(
+            self.x_train, 
+            self.y_train, 
+            test_size=validation_size
+            )
+        self.val_size = self.x_val_.shape[0]
+        self.train_splitted_size = self.x_train_.shape[0]
+        return self.x_train_, self.x_val_, self.y_train_, self.y_val_
+
     def data_augmentation(self, augment_size: int = 5_000) -> None:
         image_generator = ImageDataGenerator(
             width_shift_range=0.08, # 0.08 -> 8% -> Verschiebung bis zu 2 Pixel 
@@ -64,3 +90,15 @@ class MNIST:
         self.x_train = np.concatenate((self.x_train, x_augmented))
         self.y_train = np.concatenate((self.y_train, y_augmented))
         self.train_size = self.x_train.shape[0]
+
+# %%
+data = MNIST()
+print(f'Train size: {data.train_size}')
+print(f'Test size: {data.test_size}')
+print(f'Train shape: {data.x_train.shape}')
+print(f'Test shape: {data.x_test.shape}')
+
+print(f'Min of x_train: {np.min(data.x_train)}')
+print(f'Max of x_train: {np.max(data.x_train)}')
+
+
