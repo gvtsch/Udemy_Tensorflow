@@ -97,12 +97,3 @@ class MNIST:
                 num_parallel_calls=tf.data.experimental.AUTOTUNE
             )
         return dataset.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
-            
-
-    # staticmethods gehören zur Klasse, verwenden aber keine Self-Attribute
-    
-
-# %%
-data = MNIST()
-
-
