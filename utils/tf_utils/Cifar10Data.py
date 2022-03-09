@@ -5,7 +5,7 @@ from typing import Tuple
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 
-class MNIST:
+class CIFAR10:
     def __init__(self, with_normalization: bool = True):
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
         self.x_train_: np.ndarray = None

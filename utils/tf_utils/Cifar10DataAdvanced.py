@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 
 # %%
-class MNIST:
+class CIFAR10:
     def __init__(self, validation_size: float = 0.33) -> None:
         # User-defined constants
         self.num_classes = 10
