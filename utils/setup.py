@@ -23,7 +23,7 @@ ISRELEASED = True
 VERSION = "%d.%d.%d" % (MAJOR, MINOR, MICRO)
 
 PYTHON_MIN_VERSION = "3.7"
-PYTHON_MAX_VERSION = "3.8"
+PYTHON_MAX_VERSION = "3.9"
 
 metadata = dict(
     name=DISTNAME,
